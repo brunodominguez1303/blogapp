@@ -5,20 +5,15 @@
 </a>
 
 {{#each posts}}
-	<div class="card mt-4">
-		<div class="card-body">
-			<h4>{{getTitle this}}</h4>
-			<small>{{getDescription this}}</small>
-			<br>
-			<a href="/admin/posts/edit/{{getId this}}">
-				<button class="btn btn-success mt-2">Edit</button>
-			</a>
-			<form action="/admin/posts/delete" method="POST">
-				<input type="hidden" name="id" value="{{getId this}}">
-				<button type="submit" class="btn btn-danger mt-2">Delete</button>
-			</form>
+	<a href="/admin/post/{{this._id}}">
+		<div class="card mt-4">
+			<div class="card-body">
+				<h4>{{this.title}}</h4>
+				<small>{{this.description}}</small>
+				<br>
+			</div>
 		</div>
-	</div>
+	</a>
 {{else}}
 	<h4>There aren't any posts created yet.</h4>
 

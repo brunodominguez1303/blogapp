@@ -7,14 +7,14 @@
 {{#each categories}}
 	<div class="card mt-4">
 		<div class="card-body">
-			<h4>{{showName this}}</h4>
-			<small>{{showSlug this}}</small>
+			<h4>{{this.name}}</h4>
+			<small>{{this.slug}}</small>
 			<br>
-			<a href="/admin/categories/edit/{{showId this}}">
+			<a href="/admin/categories/edit/{{this._id}}">
 				<button class="btn btn-success mt-2">Edit</button>
 			</a>
 			<form action="/admin/categories/delete" method="POST">
-				<input type="hidden" name="id" value="{{showId this}}">
+				<input type="hidden" name="id" value="{{this._id}}">
 				<button type="submit" class="btn btn-danger mt-2">Delete</button>
 			</form>
 		</div>

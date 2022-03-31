@@ -7,11 +7,11 @@
 <div class="card">
 	<div class="card-body">
 		<form action="/admin/categories/edit" method="POST">
-			<input type="hidden" name="id" value="{{showId}}">
+			<input type="hidden" name="id" value="{{category._id}}">
 			<label for="name">Name:</label>
-			<input type="text" id="name" name="name" placeholder="Category name" class="form-control" value="{{showName}}">
+			<input type="text" id="name" name="name" placeholder="Category name" class="form-control" value="{{category.name}}">
 			<label for="slug">Slug:</label>
-			<input type="text" id="slug" name="slug" placeholder="Slug name" class="form-control" value="{{showSlug}}">
+			<input type="text" id="slug" name="slug" placeholder="Slug name" class="form-control" value="{{category.slug}}">
 			<button type="submit" class="btn btn-success mt-2">Save</button>
 		</form>
 	</div>

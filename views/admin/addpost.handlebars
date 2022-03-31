@@ -13,7 +13,7 @@
 			<label for="category">Category:</label>
 			<select name="category" class="form-select" required>
 				{{#each categories}}
-					<option value="{{getId this}}">{{getName this}}</option>
+					<option value="{{this._id}}">{{this.name}}</option>
 				{{else}}
 					<option value="0">There aren't any categories.</option>
 				{{/each}}
