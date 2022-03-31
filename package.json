@@ -1,0 +1,35 @@
+{
+  "name": "blogapp",
+  "version": "1.0.0",
+  "description": "a blog app with admin privileges to post articles",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.2.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunodominguez1303/blogapp.git"
+  },
+  "keywords": [
+    "blog",
+    "webapp",
+    "nodejs",
+    "mongoose",
+    "express"
+  ],
+  "author": "Bruno Dominguez da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunodominguez1303/blogapp/issues"
+  },
+  "homepage": "https://github.com/brunodominguez1303/blogapp#readme"
+}

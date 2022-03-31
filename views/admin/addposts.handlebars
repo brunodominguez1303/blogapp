@@ -1,0 +1,24 @@
+<div class="card">
+	<div class="card-body">
+		<h4>New post</h4>
+		<form action="/admin/posts/new" method="POST">
+			<label for="title">Title:</label>
+			<input type="text" name="title" class="form-control" required>
+			<label for="slug">Slug:</label>
+			<input type="text" name="slug" class="form-control" required>
+			<label for="description">Description:</label>
+			<input type="text" name="description" class="form-control" required>
+			<label for="content">Content:</label>
+			<textarea name="content" class="form-control" required></textarea>
+			<label for="category">Category:</label>
+			<select name="category" class="form-select" required>
+				{{#each categories}}
+					<option value="{{getId this}}">{{getName this}}</option>
+				{{else}}
+					<option value="0">There aren't any categories.</option>
+				{{/each}}
+			</select>
+			<button class="btn btn-success mt-4" type="submit">Create post</button>
+		</form>
+	</div>
+</div>
