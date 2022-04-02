@@ -10,6 +10,10 @@ const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+// Models
+require('./models/Post');
+const Post = mongoose.model('posts');
+
 // Group routes
 const admin = require('./routes/admin');
 
@@ -35,7 +39,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Handlebars
-app.engine('.handlebars', engine());
+app.engine('.handlebars', engine({defaultLayout: 'main'}));
 app.set('view engine', '.handlebars');
 app.set('views', './views');
 
@@ -50,6 +54,15 @@ mongoose.connect('mongodb://localhost/blogapp').then(() => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* Routes */
+app.get('/', (req, res) => {
+	Post.find().populate("category").sort({creationDate: 'desc'}).lean().then(posts => {
+		res.render('index', {posts: posts});
+	}).catch(err => {
+		console.log(err);
+		req.flash('error_msg', 'Could not load posts');
+	})
+});
+
 app.use('/admin', admin);
 
 /* Application opening */
