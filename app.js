@@ -18,6 +18,7 @@ const Category = mongoose.model('categories');
 
 // Group routes
 const admin = require('./routes/admin');
+const user = require('./routes/user');
 
 /* Configurations */
 
@@ -115,6 +116,7 @@ app.get('/categories/:id', (req, res) => {
 });
 
 app.use('/admin', admin);
+app.use('/user', user);
 
 /* Application opening */
 const PORT = 8081;
