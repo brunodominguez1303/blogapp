@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 require('../models/User');
 const User = mongoose.model('users');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 router.get('/register', (req, res) => {
 	res.render('user/register');
@@ -64,12 +65,17 @@ router.post('/register', (req, res) => {
 			console.log(err);
 			req.flash('error_msg', 'Could not search for user.');
 		});
-
-
-		
 	}
+});
 
+router.get('/login', (req, res) => {
+	res.render('user/login');
+});
 
-})
+router.post('/login/password', passport.authenticate('local', {
+	successReturnToOrRedirect: '/',
+	failureRedirect: '/user/login',
+	failureMessage: true
+}));
 
 module.exports = router;

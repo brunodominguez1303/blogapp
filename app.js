@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+require('./config/auth')(passport);
 
 // Models
 require('./models/Post');
@@ -20,7 +22,7 @@ const Category = mongoose.model('categories');
 const admin = require('./routes/admin');
 const user = require('./routes/user');
 
-/* Configurations */
+/* Configurations */3
 
 // Session
 app.use(session({
@@ -28,12 +30,23 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+
+app.use(passport.authenticate('session'));
+app.use(function(req, res, next) {
+  var msgs = req.session.messages || [];
+  res.locals.messages = msgs;
+  res.locals.hasMessages = !! msgs.length;
+  req.session.messages = [];
+  next();
+});
+
 app.use(flash());
 
 // Middleware
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
 	next();
 });
 
@@ -55,6 +68,17 @@ mongoose.connect('mongodb://localhost/blogapp').then(() => {
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = err;
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
 /* Routes */
 app.get('/', (req, res) => {
