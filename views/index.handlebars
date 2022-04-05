@@ -6,7 +6,15 @@
   {{!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> --}}
 </div>
 
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+{{!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="../img/shiro.jpg" class="w-100" alt="...">
@@ -18,7 +26,7 @@
       <img src="../img/sunset.jpg" class="w-100" alt="...">
     </div>
   </div>
-</div>
+</div> --}}
 
 <hr>
 <h2>Recent posts:</h2>
@@ -31,6 +39,10 @@
 			<p>{{this.content}}</p>
 			<p style="color:red">{{this.category.name}}</p>
 			<small>{{this.creationDate}}</small>
+      <div class="mt-2">
+        <a href="/post/{{_id}}"><button class="btn btn-success">Read more</button></a>
+      </div>
+      
 		</div>
 	</div>
 {{else}}

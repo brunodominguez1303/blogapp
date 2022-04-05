@@ -13,6 +13,8 @@ const flash = require('connect-flash');
 // Models
 require('./models/Post');
 const Post = mongoose.model('posts');
+require('./models/Category');
+const Category = mongoose.model('categories');
 
 // Group routes
 const admin = require('./routes/admin');
@@ -61,6 +63,29 @@ app.get('/', (req, res) => {
 		console.log(err);
 		req.flash('error_msg', 'Could not load posts');
 	})
+});
+
+app.get('/post/:id', (req, res) => {
+	Post.findOne({_id: req.params.id}).lean().then(post => {
+		if(post) {
+			res.render('post/index', {post: post});
+		} else {
+			req.flash('error_msg', 'This post doesn\'t exists');
+			res.redirect('/');
+		}
+	}).catch(err => {
+		req.flash('error_msg', 'Couldn\'t load the post');
+	});
+});
+
+app.get('/categories', (req, res) => {
+	Category.find().lean().then(categories => {
+		res.render('categories/index');
+	}).catch(err => {
+		console.log(err);
+		req.flash('error_msg', 'Problem loading the categories.');
+		res.redirect('/');
+	});
 });
 
 app.use('/admin', admin);
