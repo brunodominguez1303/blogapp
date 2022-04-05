@@ -1,0 +1,19 @@
+
+<h2>Content for {{category.name}}</h2>
+{{#each posts}}
+	<div class="card">
+		<div class="card-body">
+			<h3>{{this.title}}</h3>
+			<h6>{{this.description}}</h6>
+			<p>{{this.content}}</p>
+			<p style="color:red">{{this.category.name}}</p>
+			<small>{{this.creationDate}}</small>
+      <div class="mt-2">
+        <a href="/post/{{_id}}"><button class="btn btn-success">Read more</button></a>
+      </div>
+      
+		</div>
+	</div>
+{{else}}
+	<h5>Working to create the best content for you.</h5>
+{{/each}}

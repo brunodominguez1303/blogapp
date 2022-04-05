@@ -75,16 +75,42 @@ app.get('/post/:id', (req, res) => {
 		}
 	}).catch(err => {
 		req.flash('error_msg', 'Couldn\'t load the post');
+		res.redirect('/post');
 	});
 });
 
 app.get('/categories', (req, res) => {
 	Category.find().lean().then(categories => {
-		res.render('categories/index');
+		res.render('category/index', {categories: categories});
 	}).catch(err => {
 		console.log(err);
 		req.flash('error_msg', 'Problem loading the categories.');
 		res.redirect('/');
+	});
+});
+
+app.get('/categories/:id', (req, res) => {
+	Category.findOne({_id: req.params.id}).lean().then(category => {
+		if(category) {
+			Post.find({category: category._id}).lean().then(posts => {
+
+				res.render('category/posts', {
+					posts: posts,
+					category: category
+				});
+
+			}).catch(err => {
+				req.flash('error_msg', 'Unable to load posts.');
+				res.redirect('/categories');
+			})
+		} else {
+			req.flash('error_msg', 'Category doens\'t exists.');
+			res.redirect('/categories');
+		}
+	}).catch(err => {
+		console.log(err);
+		req.flash('error_msg', 'Could not load the posts from category.');
+		res.redirect('/categories');
 	});
 });
 
