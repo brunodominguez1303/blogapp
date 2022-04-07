@@ -5,21 +5,22 @@ require('../models/Category');
 const Category = mongoose.model('categories');
 require('../models/Post');
 const Post = mongoose.model('posts');
+const {isAdmin} = require('../helpers/isAdmin');
 
 /* INDEX FOR ADMIN PAGE */
-router.get('/', (req, res) => {
+router.get('/', isAdmin, (req, res) => {
 	res.render('admin/index');
 });
 
 /* LIST OF POSTS */
-router.get('/posts', (req, res) => {
+router.get('/posts', isAdmin, (req, res) => {
 	Post.find().lean().then((posts) => {
 		res.render('admin/posts', {posts: posts});
 	});
 });
 
 /* POST PAGE */
-router.get('/post/:id', (req, res) => {
+router.get('/post/:id', isAdmin, (req, res) => {
 	Post.findOne({_id: req.params.id}).lean().then(post => {
 		res.render('admin/viewpost', {post: post});
 	});
@@ -27,7 +28,7 @@ router.get('/post/:id', (req, res) => {
 });
 
 /* FORM ADD POST ROUTE */
-router.get('/posts/add', (req, res) => {
+router.get('/posts/add', isAdmin, (req, res) => {
 	Category.find().lean().then(categories => {
 		res.render('admin/addpost', {categories: categories});
 	}).catch(err => {
@@ -37,7 +38,7 @@ router.get('/posts/add', (req, res) => {
 });
 
 /* SAVE CREATED POST INTO DATABASE */
-router.post('/posts/new', (req, res) => {
+router.post('/posts/new', isAdmin, (req, res) => {
 	const newPost = {
 		title: req.body.title,
 		slug: req.body.slug,
@@ -57,7 +58,7 @@ router.post('/posts/new', (req, res) => {
 });
 
 /* EDIT POST */
-router.get('/post/edit/:id', (req, res) => {
+router.get('/post/edit/:id', isAdmin, (req, res) => {
 	Post.findOne({_id: req.params.id}).lean().then(post => {
 
 		Category.find().lean().then(categories => {
@@ -80,7 +81,7 @@ router.get('/post/edit/:id', (req, res) => {
 });
 
 /* SAVE EDITED POST INTO DATABASE */
-router.post('/post/edit', (req, res) => {
+router.post('/post/edit', isAdmin, (req, res) => {
 	Post.findOne({_id: req.body.id}).then(post => {
 
 		post.title = req.body.title;
@@ -106,7 +107,7 @@ router.post('/post/edit', (req, res) => {
 });
 
 /* DELETE POST */
-router.get('/post/delete/:id', (req, res) => {
+router.get('/post/delete/:id', isAdmin, (req, res) => {
 	Post.remove({_id: req.params.id}).then(() => {
 		req.flash('success_msg', 'Post deleted.');
 		res.redirect('/admin/posts');
@@ -119,7 +120,7 @@ router.get('/post/delete/:id', (req, res) => {
 
 
 /* LIST OF CATEGORIES */
-router.get('/categories', (req, res) => {
+router.get('/categories', isAdmin, (req, res) => {
 
 	Category.find().lean().then(categories => {
 		res.render('admin/categories', {categories: categories});
@@ -129,12 +130,12 @@ router.get('/categories', (req, res) => {
 });
 
 /* FORM TO ADD A CATEGORY */
-router.get('/categories/add', (req, res) => {
+router.get('/categories/add', isAdmin, (req, res) => {
 	res.render('admin/addcategory');
 });
 
 /* POST ROUTE TO SAVE CATEGORY INTO DATABASE */
-router.post('/categories/new', (req, res) => {
+router.post('/categories/new', isAdmin, (req, res) => {
 
 	// ERROR HANDLER
 	var errors = [];
@@ -168,7 +169,7 @@ router.post('/categories/new', (req, res) => {
 });
 
 /* FORMS TO EDIT A CATEGORY */
-router.get('/categories/edit/:id', (req, res) => {
+router.get('/categories/edit/:id', isAdmin, (req, res) => {
 	Category.findOne({_id:req.params.id}).lean().then(category => {
 		res.render('admin/editcategory', {category: category});	
 	}).catch(err => {
@@ -179,7 +180,7 @@ router.get('/categories/edit/:id', (req, res) => {
 });
 
 /* SAVE EDITED CATEGORY INTO DATABASE */
-router.post('/categories/edit', (req, res) => {
+router.post('/categories/edit', isAdmin, (req, res) => {
 	// ERROR HANDLER
 	var errors = [];
 
@@ -219,7 +220,7 @@ router.post('/categories/edit', (req, res) => {
 });
 
 /* DELETE CATEGORY */
-router.post('/categories/delete', (req, res) => {
+router.post('/categories/delete', isAdmin, (req, res) => {
 	Category.remove({_id: req.body.id}).then(() => {
 		req.flash('success_msg', 'Category deleted with success.');
 		res.redirect('/admin/categories');

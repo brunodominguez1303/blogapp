@@ -78,4 +78,10 @@ router.post('/login/password', passport.authenticate('local', {
 	failureMessage: true
 }));
 
+router.get('/singout', (req, res) => {
+	req.logout();
+	req.flash('success_msg', 'Goodbye! See you soon.');
+	res.redirect('/');
+})
+
 module.exports = router;
