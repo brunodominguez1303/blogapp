@@ -11,6 +11,9 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 require('./config/auth')(passport);
+const db = require('./config/db');
+
+console.log(db.mongoURI);
 
 // Models
 require('./models/Post');
@@ -61,7 +64,7 @@ app.set('view engine', '.handlebars');
 app.set('views', './views');
 
 // Mongoose
-mongoose.connect('mongodb://localhost/blogapp').then(() => {
+mongoose.connect(db.mongoURI).then(() => {
 	console.log('Successfully connected to mongodb.');
 }).catch(err => {
 	console.log('Unable to connect to mongodb: ' + err);
@@ -90,6 +93,8 @@ app.get('/', (req, res) => {
 		req.flash('error_msg', 'Could not load posts');
 	})
 });
+
+
 
 app.get('/post/:id', (req, res) => {
 	Post.findOne({_id: req.params.id}).lean().then(post => {
@@ -144,7 +149,7 @@ app.use('/admin', admin);
 app.use('/user', user);
 
 /* Application opening */
-const PORT = 8081;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
 	console.log('App running.');
 });
