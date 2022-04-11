@@ -5,7 +5,7 @@
 if(process.env.NODE_ENV == 'production') {
 	
 	module.exports = {
-		mongoURI: "mongodb+srv://brunodominguez:eCm25DkaxeTGphD5@bloagapp.o6yos.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+		mongoURI: ""
 	}
 } else {
 	module.exports = {
