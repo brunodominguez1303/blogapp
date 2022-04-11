@@ -72,16 +72,24 @@ router.get('/login', (req, res) => {
 	res.render('user/login');
 });
 
-router.post('/login/password', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
 	successReturnToOrRedirect: '/',
 	failureRedirect: '/user/login',
 	failureMessage: true
 }));
 
-router.get('/singout', (req, res) => {
+router.get('/logout', (req, res) => {
 	req.logout();
 	req.flash('success_msg', 'Goodbye! See you soon.');
 	res.redirect('/');
-})
+});
+
+
+/*
+ * @param {string} somebody - Somebody's name.
+*/
+function yieldsSomebodysName(somebody) {
+	console.log(somebody);
+}
 
 module.exports = router;

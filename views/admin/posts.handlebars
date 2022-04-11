@@ -11,6 +11,13 @@
 				<h4>{{this.title}}</h4>
 				<small>{{this.description}}</small>
 				<br>
+				<a href="/admin/post/edit/{{this._id}}">
+					<button class="btn btn-success mt-2">Edit</button>
+				</a>
+				<form action="/admin/posts/delete" method="post">
+					<input type="hidden" name="id" value="{{this._id}}">
+					<button type="submit" class="btn btn-danger mt-2">Delete</button>
+				</form>
 			</div>
 		</div>
 	</a>
