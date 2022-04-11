@@ -13,13 +13,13 @@ const passport = require('passport');
 require('./config/auth')(passport);
 const db = require('./config/db');
 
-
-
 // Models
 require('./models/Post');
 const Post = mongoose.model('posts');
 require('./models/Category');
 const Category = mongoose.model('categories');
+require('./models/User');
+const User = mongoose.model('users');
 
 // Group routes
 const admin = require('./routes/admin');
@@ -90,7 +90,14 @@ app.get('/', (req, res) => {
 	})
 });
 
-
+app.get('/posts', (req, res) => {
+	Post.find().lean().then(posts => {
+		User.findOne({_id: req.user.id}).lean().then(user => {
+			res.render('post/posts', {posts: posts, user: user});
+		});
+		
+	});
+});
 
 app.get('/post/:id', (req, res) => {
 	Post.findOne({_id: req.params.id}).lean().then(post => {

@@ -1,0 +1,34 @@
+<h2>Posts list:</h2>
+<hr>
+{{#if user.isAdmin}}
+	<a href="/posts/add">
+		<button class="btn btn-success">New post</button>
+	</a>
+{{else}}
+
+{{/if}}
+
+{{#each posts}}
+	<a href="/admin/post/{{this._id}}">
+		<div class="card mt-4">
+			<div class="card-body">
+				<h4>{{this.title}}</h4>
+				<small>{{this.description}}</small>
+				<br>
+				{{#if user.isAdmin}}
+					<a href="/admin/post/edit/{{this._id}}">
+						<button class="btn btn-success mt-2">Edit</button>
+					</a>
+					<form action="/admin/posts/delete" method="post">
+						<input type="hidden" name="id" value="{{this._id}}">
+						<button type="submit" class="btn btn-danger mt-2">Delete</button>
+					</form>
+				{{else}}
+				{{/if}}
+			</div>
+		</div>
+	</a>
+{{else}}
+	<h4>There aren't any posts created yet.</h4>
+
+{{/each}}
