@@ -13,7 +13,7 @@ const passport = require('passport');
 require('./config/auth')(passport);
 const db = require('./config/db');
 
-console.log(db.mongoURI);
+
 
 // Models
 require('./models/Post');
@@ -25,7 +25,7 @@ const Category = mongoose.model('categories');
 const admin = require('./routes/admin');
 const user = require('./routes/user');
 
-/* Configurations */3
+/* Configurations */
 
 // Session
 app.use(session({
@@ -34,16 +34,11 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-app.use(passport.authenticate('session'));
-app.use(function(req, res, next) {
-  var msgs = req.session.messages || [];
-  res.locals.messages = msgs;
-  res.locals.hasMessages = !! msgs.length;
-  req.session.messages = [];
-  next();
-});
-
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
+/*app.use(passport.authenticate('session'));*/
 
 // Middleware
 app.use((req, res, next) => {
@@ -66,6 +61,7 @@ app.set('views', './views');
 // Mongoose
 mongoose.connect(db.mongoURI).then(() => {
 	console.log('Successfully connected to mongodb.');
+	console.log(db.mongoURI);
 }).catch(err => {
 	console.log('Unable to connect to mongodb: ' + err);
 });

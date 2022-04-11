@@ -9,20 +9,21 @@ const User = mongoose.model('users');
 module.exports = function (passport) {
 	passport.use(new LocalStrategy({usernameField: 'email'}, function verify(email, password, done) {
 		User.findOne({email: email}).then(user => {
-			if(!user) {
-				return done(null, false, {message: 'Account does not exist.'});
-			}
+
+			if(!user) { return done(null, false); }
 
 			bcrypt.compare(password, user.password, (error, same) => {
 
-				if(same) {
-					return done(null, user);
-				}
+				if(error) { return done(error); }
+
+				if(same) { return done(null, user); }
 
 				return done(null, false, {message: 'Invalid password'});
 			});
 		}).catch(err => {
 			console.log(err);
+			req.flash('error_msg', 'Could not query into database.');
+			res.redirect('/');
 		});
 	}));
 

@@ -59,15 +59,13 @@ router.post('/posts/new', isAdmin, (req, res) => {
 
 /* EDIT POST */
 router.get('/post/edit/:id', isAdmin, (req, res) => {
+	
 	Post.findOne({_id: req.params.id}).lean().then(post => {
-
 		Category.find().lean().then(categories => {
-
 			res.render('admin/editpost', {
 				categories: categories,
 				post: post,
 			});
-
 		}).catch(err => {
 			console.log(err);
 			req.flash('error_msg', 'Could not retrieve categories from db');
@@ -107,8 +105,8 @@ router.post('/post/edit', isAdmin, (req, res) => {
 });
 
 /* DELETE POST */
-router.get('/post/delete/:id', isAdmin, (req, res) => {
-	Post.remove({_id: req.params.id}).then(() => {
+router.post('/posts/delete', isAdmin, (req, res) => {
+	Post.remove({_id: req.body.id}).then(() => {
 		req.flash('success_msg', 'Post deleted.');
 		res.redirect('/admin/posts');
 	}).catch(err => {
